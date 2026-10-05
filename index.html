@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Operator Control Panels</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--cy:#38d6f2;--gr:#3ddc5a;--or:#ff8a1f;--rd:#ff4a3a;--tx:#d3eef3;--bd:#2a7482;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px);background:#020a0d}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#020a0d;color:var(--tx);font-family:Roboto,"Segoe UI",Arial,sans-serif;overflow-x:hidden}
+#wrap{position:relative;width:100%;overflow:hidden}
+#stage{position:absolute;left:0;top:0;width:1604px;height:868px;transform-origin:0 0;border-radius:26px;background:#252a2e;box-shadow:inset 0 0 0 3px #3a4146}
+.a{position:absolute}
+.screw{position:absolute;width:26px;height:26px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#555c61,#171b1d);box-shadow:0 0 0 2px #14181a}
+.screw:after{content:"";position:absolute;left:5px;right:5px;top:12px;height:2px;background:#0c0f10;transform:rotate(-30deg)}
+#screen{left:48px;top:78px;width:1507px;height:752px;border-radius:16px;background:radial-gradient(ellipse at 45% 35%,#0f4350,#082d37 60%,#06222b);box-shadow:inset 0 0 0 4px #0b1d22,inset 0 0 0 6px #1c5560,inset 0 0 60px #000c}
+.ttl{font-family:Orbitron,sans-serif;font-weight:700;font-size:34px;letter-spacing:2px;color:#3fe3f0;text-shadow:0 0 14px #19c6dd;left:699px;top:20px;white-space:nowrap}
+.op{left:530px;top:24px;font-size:29px;color:#fff;font-weight:400}
+.box{position:absolute;border-radius:8px;background:linear-gradient(180deg,#0e3d48,#0a2c35);--bd:#2a7482}
+.box:after{content:"";position:absolute;inset:0;border:2px solid var(--bd);border-radius:inherit;pointer-events:none}
+.hd{position:absolute;left:2px;right:2px;top:2px;display:flex;align-items:center;justify-content:center;background:rgba(7,40,49,.85);font-weight:500;border-radius:6px 6px 0 0}
+.sec{left:87px;top:162px;font-size:20px;font-weight:700;color:#e8f8fb;letter-spacing:.2px;white-space:nowrap}
+.row{position:absolute;left:0;width:368px;height:50px;display:flex;gap:8px}
+.pid{width:178px;display:flex;align-items:center;gap:14px;padding-left:13px;background:#0b2f38;border:1px solid #3a7683;border-radius:6px;font-size:30px;color:#eef9fb;box-shadow:inset 0 0 8px #0006}
+.pid svg{width:27px;height:27px;stroke:#d3eef3;fill:none;stroke-width:1.6;flex:none}
+.dur{width:182px;display:flex;align-items:center;gap:9px;padding:0 8px;border:1px solid #c0413a;border-radius:6px;background:linear-gradient(180deg,#4d1e20,#2e1316);box-shadow:0 0 10px #ff3b3055;font-size:14.5px;white-space:nowrap}
+.dur svg{width:26px;height:26px;stroke:#ff6a5c;fill:none;stroke-width:1.7;flex:none}
+.led{left:511px;top:171px;width:50px;height:50px;border-radius:50%;border:3px solid #2fd25a;display:grid;place-items:center;box-shadow:0 0 14px #2fd25a88}
+.led b{width:22px;height:22px;border-radius:50%;background:#2fd25a;box-shadow:0 0 12px #2fd25a}
+.mono{font-family:Orbitron,sans-serif}
+.err1{height:31px;display:flex;gap:9px;align-items:center;font-size:15.5px;margin:0 22px 0 13px;border-bottom:1px solid #5f2527;white-space:nowrap}
+.err1 svg{width:19px;height:19px;flex:none}
+.gt{position:absolute;left:0;right:0;top:3px;text-align:center;font-weight:500;font-size:17px;white-space:nowrap}
+.dial{position:absolute;left:16px;top:29px;width:204px;height:204px;border-radius:50%;background:radial-gradient(circle,#05181d 58%,#0b2a31);border:5px solid #35545d;box-shadow:inset 0 0 18px #000a,0 0 0 2px #0a1b20;display:flex;align-items:center;justify-content:center;flex-direction:column}
+.ring{position:absolute;inset:-1px;width:194px;height:194px;transform:rotate(-90deg)}
+.segs{display:flex;gap:2px;padding:3px;border:2px solid #7fa7b0;border-radius:6px;width:154px;height:26px;background:#04151a;margin-top:14px}
+.segs i{flex:1;background:#123a46}
+.segs i.on{background:#2aa3e3;box-shadow:0 0 5px #2aa3e3}
+.tick{position:absolute;top:555px;width:2px;height:17px;background:#4f8591}
+.tlab{position:absolute;top:578px;font-size:15.5px;transform:translateX(-50%);white-space:nowrap}
+table{border-collapse:collapse;width:100%;table-layout:fixed;font-size:15px}
+th{font-weight:500;text-align:left;padding:0 6px;border:1px solid #2f6b78;background:#0a2d36;height:27px}
+td{padding:0 6px;border:1px solid #2f6b78;height:32px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ok{color:#4be06a}.pg{color:#f5a623}
+.btn{border:1px solid #6fb7c5;background:#0d3d4a;color:#e8f8fb;border-radius:13px;padding:2px 0;width:84px;font-size:14px;cursor:pointer;font-family:inherit}
+.btn:focus-visible{outline:2px solid var(--cy)}
+.cnt{font-family:Orbitron,sans-serif;font-size:58px;font-weight:700;color:#d8f6fb;text-shadow:0 0 12px #27c9e0}
+.bar{height:10px;background:#0a2128;border:1px solid #4a7f8b;border-radius:3px;overflow:hidden}
+.bar i{display:block;height:100%;background:linear-gradient(90deg,#1aa6d0,#58e3f5)}
+@media (prefers-reduced-motion:no-preference){.hold{animation:bl 1.6s ease-in-out infinite}@keyframes bl{50%{opacity:.6}}}
+</style>
+</head>
+<body>
+<div id="wrap"><div id="stage">
+ <div class="screw" style="left:17px;top:13px"></div><div class="screw" style="right:17px;top:13px"></div>
+ <div class="screw" style="left:17px;bottom:13px"></div><div class="screw" style="right:17px;bottom:13px"></div>
+ <div class="a op">OPERATOR</div><div class="a ttl">CONTROL PANELS</div>
+ <div class="a" id="screen"></div>
+
+ <!-- NEXT PROGRAM -->
+ <div class="a sec">NEXT PROGRAM RECOMMENDATIONS</div>
+ <div class="box" style="left:80px;top:194px;width:396px;height:298px;--bd:#2a5e69;background:#0a2c35"></div>
+ <div class="a" style="left:122px;top:205px;font-size:21px;color:#e8f8fb">Program ID</div>
+ <div class="a" id="nextList" style="left:95px;top:238px"></div>
+
+ <!-- SYSTEM STATUS -->
+ <div class="box" style="left:493px;top:101px;width:663px;height:137px">
+  <div class="hd" style="height:46px;font-size:22px">SYSTEM STATUS</div></div>
+ <div class="a led"><b></b></div>
+ <div class="a" id="sysState" style="left:571px;top:168px;color:#3ddc5a;font-weight:500;font-size:21px;line-height:24px;width:130px;white-space:pre-line"></div>
+ <div class="a" style="left:706px;top:158px;height:76px;border-left:1px solid #2a7482"></div>
+ <div class="a" style="left:713px;top:160px;width:238px;text-align:center;font-size:17px">SYSTEM CLOCK</div>
+ <div class="a" id="clock" style="left:713px;top:186px;width:238px;text-align:center;font-size:25px;white-space:nowrap">--</div>
+ <div class="a" style="left:957px;top:158px;height:76px;border-left:1px solid #2a7482"></div>
+ <div class="a" style="left:962px;top:160px;width:190px;text-align:center;font-size:17px">TOTAL UP-TIME</div>
+ <div class="a mono" id="uptime" style="left:962px;top:187px;width:190px;text-align:center;font-size:24px;color:#8fb8bf;white-space:nowrap">--</div>
+
+ <!-- ERROR LOG -->
+ <div class="box" style="left:1180px;top:101px;width:343px;height:150px;--bd:#b0342f;background:linear-gradient(180deg,#3d1a1d,#2a1417)"></div>
+ <div class="a" style="left:1193px;top:111px;font-size:20.5px;color:#ff8a80;font-weight:500;white-space:nowrap">ERROR LOG (MINIMAL 1 MAX 3)</div>
+ <div class="a" id="errTop" style="left:1180px;top:145px;width:343px;height:96px;overflow:hidden"></div>
+ <div class="a" style="left:1502px;top:150px;width:9px;height:42px;border-radius:5px;background:#9aa"></div>
+
+ <!-- GAUGES -->
+ <div class="box" style="left:488px;top:255px;width:236px;height:243px;--bd:#3ddc5a;box-shadow:0 0 10px #3ddc5a55">
+  <div class="gt">MAIN PROGRAM STATUS</div>
+  <div class="dial"><svg class="ring" viewBox="0 0 194 194"><circle cx="97" cy="97" r="85" fill="none" stroke="#14424d" stroke-width="9"/><circle id="ringP" cx="97" cy="97" r="85" fill="none" stroke="#2fb7f0" stroke-width="9" stroke-linecap="round" stroke-dasharray="534" stroke-dashoffset="534" style="filter:drop-shadow(0 0 6px #2fb7f0)"/></svg>
+   <div style="text-align:center;position:relative"><div style="font-size:15px">PROGRAM</div><div id="pPct" style="font-size:44px;font-weight:500;line-height:46px">0%</div><div id="pState" style="color:#3ddc5a;font-size:20px;font-weight:500">RUNNING</div></div></div>
+  <div id="pNo" class="a" style="right:10px;top:21px;font-size:34px">13</div>
+ </div>
+ <div class="box" style="left:738px;top:255px;width:236px;height:243px;--bd:#cde03a;box-shadow:0 0 10px #cde03a44">
+  <div class="gt">COUNT DOWN</div>
+  <div class="dial"><div id="cd" class="mono" style="font-size:33px;font-weight:700;color:#ffd21f;text-shadow:0 0 8px #ffb300">00:00:00</div><div id="cdBar" class="segs"></div></div>
+ </div>
+ <div class="box" style="left:988px;top:255px;width:236px;height:243px;--bd:#ff8a1f;box-shadow:0 0 10px #ff8a1f44">
+  <div class="gt">PRODUCTION DELAY</div>
+  <div class="dial"><div class="hold" style="text-align:center"><svg width="46" height="42" viewBox="0 0 46 42"><path d="M23 3 3 39h40z" fill="none" stroke="#ff4a3a" stroke-width="3"/><path d="M23 15v13M23 32v3" stroke="#ff4a3a" stroke-width="3"/></svg><div class="mono" style="font-size:33px;color:#b8352b;font-weight:700;letter-spacing:1px;text-shadow:0 0 6px #ff3b30;margin-top:4px">H-O-L-D</div><div id="holdT" class="mono" style="font-size:30px;color:#ff9a1f;margin-top:6px">00:00:00</div></div></div>
+ </div>
+ <div class="box" style="left:1238px;top:255px;width:236px;height:243px;--bd:#ff8a1f;box-shadow:0 0 10px #ff8a1f44">
+  <div class="gt">MT VS AKTUAL</div>
+  <div class="dial"><div style="width:150px">
+   <div style="font-size:15px;display:flex;justify-content:space-between"><span>waktu mt</span><b id="mtT" class="mono" style="font-size:14px">--</b></div><div class="bar" style="margin:4px 0 14px"><i id="mtB" style="width:0"></i></div>
+   <div style="font-size:15px;display:flex;justify-content:space-between"><span>waktu aktual</span><b id="acT" class="mono" style="font-size:14px">--</b></div><div class="bar" style="margin-top:4px"><i id="acB" style="width:0;background:linear-gradient(90deg,#ff8a1f,#ffc46b)"></i></div>
+   <div id="diff" class="mono" style="text-align:center;margin-top:14px;font-size:16px">--</div></div></div>
+ </div>
+
+ <!-- TIMELINE -->
+ <div class="box" style="left:82px;top:511px;width:1098px;height:94px;--bd:#2a6a77"></div>
+ <div class="a" style="left:100px;top:521px;font-size:20.5px;white-space:nowrap">Program Execution Timeline</div>
+ <div class="a" style="left:1000px;width:163px;text-align:right;top:526px;font-size:15px;color:#a9cdd4">Improved clarity</div>
+ <div class="a" style="left:100px;top:553px;width:1064px;height:20px;border-radius:10px;background:#0a2a33;box-shadow:inset 0 0 0 1px #2a7482"></div>
+ <div id="tlFill" class="a" style="left:100px;top:554px;width:0;height:18px;border-radius:9px;background:linear-gradient(90deg,#1b8aa5,#5be0f2);box-shadow:0 0 10px #38d6f2"></div>
+ <div id="tlMark" class="a" style="left:632px;top:550px;width:3px;height:26px;background:#e9fbff;box-shadow:0 0 6px #fff"></div>
+ <div id="tlTicks"></div>
+
+ <!-- ERROR TABLE -->
+ <div class="box" style="left:436px;top:618px;width:740px;height:205px;overflow:hidden;--bd:#2a7482">
+  <div class="hd" style="height:30px;justify-content:flex-start;padding:0 14px;font-size:18px">ERROR LOG &amp; COUNTER MEASURES<span style="margin-left:auto;display:flex;gap:10px;font-size:14px"><b style="color:#5be0f2">✓</b><b>☰</b><b style="color:#ff5a4d">✕</b></span></div>
+  <table class="a" style="top:32px;left:0;width:738px"><colgroup><col style="width:88px"><col style="width:109px"><col><col style="width:160px"></colgroup>
+  <thead><tr><th>Error Code</th><th>Timestamp</th><th>Step-by-Step Counter Measure</th><th style="text-align:center">Status</th></tr></thead><tbody id="errBody"></tbody></table>
+ </div>
+
+ <!-- COUNT PRODUCT -->
+ <div class="box" style="left:82px;top:616px;width:333px;height:46px;--bd:#2a5e69"></div>
+ <div class="box" style="left:82px;top:672px;width:333px;height:137px"><div class="hd" style="height:46px;font-size:22px">COUNT PRODUCT</div></div>
+ <div class="a" style="left:82px;width:333px;top:728px;text-align:center;white-space:nowrap"><span id="count" class="cnt">0</span> <span style="font-size:17px;color:#a9cdd4">units</span></div>
+</div></div>
+
+<svg width="0" height="0" style="position:absolute"><defs>
+ <symbol id="i-doc" viewBox="0 0 26 26"><path d="M5 3h12l4 4v16H5z"/><path d="M8 11h8M8 15h8M8 19h5"/></symbol>
+ <symbol id="i-gear" viewBox="0 0 26 26"><circle cx="13" cy="10" r="5"/><path d="M13 2v3M13 15v3M5 10h3M18 10h3M4 22h18M7 19v3M19 19v3"/></symbol>
+ <symbol id="i-hg" viewBox="0 0 26 26"><path d="M6 3h14M6 23h14M7 3c0 6 6 7 6 10s-6 4-6 10M19 3c0 6-6 7-6 10s6 4 6 10"/></symbol>
+ <symbol id="i-clk" viewBox="0 0 26 26"><circle cx="13" cy="13" r="10"/><path d="M13 7v6l4 3"/></symbol>
+ <symbol id="i-warn" viewBox="0 0 20 20"><path d="M10 2 1 18h18z" fill="#ff4a3a"/><path d="M10 8v5M10 15v1.5" stroke="#fff" stroke-width="1.6"/></symbol>
+</defs></svg>
+
+<script>
+/* ============================================================
+   KONFIGURASI KONEKSI — TIM IOT CUKUP MENGUBAH BAGIAN INI
+   ============================================================ */
+const CONFIG = {
+  USE_MOCK: true,                          // ubah ke false setelah API siap
+  API_URL: '/api/dashboard',               // GET  -> objek JSON sesuai bentuk MOCK di bawah
+  RESOLVE_URL: '/api/errors/{id}/resolve', // POST -> tandai error selesai
+  POLL_MS: 2000
+};
+
+/* Kontrak JSON yang diharapkan frontend */
+const MOCK = {
+  system:{state:'WELDING_IN_PROGRESS', clock:null, uptime_sec:32460},
+  program:{no:13, progress_pct:75, state:'RUNNING'},
+  countdown:{remaining_sec:1787, total_sec:3000},
+  delay:{state:'HOLD', hold_sec:0},
+  mt_vs_actual:{mt_sec:1500, actual_sec:1620},
+  next_programs:[
+    {program_id:'13-10T',icon:'doc', duration_sec:1500,urgent:true},
+    {program_id:'21-20T',icon:'doc', duration_sec:1500,urgent:false},
+    {program_id:'33-30T',icon:'gear',duration_sec:1500,urgent:true},
+    {program_id:'23-20T',icon:'doc', duration_sec:1500,urgent:true}],
+  timeline:{progress_pct:50, labels:['0:00','10:00','12:00','13:00','14:00','15:00','16:00','17:00','20:00']},
+  error_log:[
+    {time:'19:17:11',code:'E02',message:'Material Misalignment'},
+    {time:'19:17:22',code:'W05',message:'Gas Flow Variance'},
+    {time:'19:18:01',code:'E03',message:'Torch Overheat'}],
+  error_measures:[
+    {id:1,code:'E02',time:'19:17:11',measure:'Check material feeder, adjust guides, re-index position',status:'resolved'},
+    {id:2,code:'W05',time:'19:17:22',measure:'Calibrate gas flow sensor, inspect regulator',status:'ready'},
+    {id:3,code:'E03',time:'19:17:23',measure:'Calibrate gas flow sensor, regulator',status:'in_progress'},
+    {id:4,code:'E03',time:'19:17:33',measure:'Calibrate gas flow sensor, inspect regulator',status:'in_progress'}],
+  count_product:12345
+};
+
+/* ADAPTER: satu-satunya fungsi pengambil data */
+async function loadData(){
+  if(CONFIG.USE_MOCK){ const d=structuredClone(MOCK); d.system.clock=new Date().toISOString(); d.system.uptime_sec+=Math.floor(performance.now()/1000); return d; }
+  const r=await fetch(CONFIG.API_URL,{headers:{'Accept':'application/json'}});
+  if(!r.ok) throw new Error('API '+r.status);
+  return r.json();
+}
+async function resolveError(id){
+  if(CONFIG.USE_MOCK){ const e=MOCK.error_measures.find(x=>x.id===id); if(e) e.status='resolved'; return refresh(); }
+  await fetch(CONFIG.RESOLVE_URL.replace('{id}',id),{method:'POST'}); refresh();
+}
+
+/* ---------- render ---------- */
+const $=id=>document.getElementById(id), p2=n=>String(n).padStart(2,'0');
+const hms=s=>{s=Math.max(0,Math.round(s));return p2(Math.floor(s/3600))+':'+p2(Math.floor(s%3600/60))+':'+p2(s%60)};
+const ms=s=>{s=Math.max(0,Math.round(s));return p2(Math.floor(s/60))+':'+p2(s%60)};
+const STATE_TEXT={WELDING_IN_PROGRESS:'WELDING IN\nPROGRESS',IDLE:'IDLE',ERROR:'ERROR',HOLD:'HOLD'};
+const ICON={doc:'i-doc',gear:'i-gear'};
+const TX=[114,233,366,500,633,766,899,1032,1145];
+
+function render(d){
+  $('sysState').textContent=STATE_TEXT[d.system.state]||d.system.state;
+  const c=new Date(d.system.clock);
+  $('clock').textContent=`${c.getMonth()+1}/${c.getDate()}/${c.getFullYear()} | ${p2(c.getHours())}:${p2(c.getMinutes())}:${p2(c.getSeconds())}`;
+  const u=d.system.uptime_sec; $('uptime').textContent=`${p2(Math.floor(u/86400))}:${p2(Math.floor(u%86400/3600))}:${p2(Math.floor(u%3600/60))}:${p2(u%60)}`;
+
+  $('pNo').textContent=d.program.no; $('pPct').textContent=d.program.progress_pct+'%'; $('pState').textContent=d.program.state;
+  $('ringP').style.strokeDashoffset=534*(1-d.program.progress_pct/100);
+
+  $('cd').textContent=hms(d.countdown.remaining_sec);
+  const on=Math.round(20*d.countdown.remaining_sec/d.countdown.total_sec);
+  $('cdBar').innerHTML=Array.from({length:20},(_,i)=>`<i class="${i<on?'on':''}"></i>`).join('');
+  $('holdT').textContent=hms(d.delay.hold_sec);
+
+  const m=d.mt_vs_actual, mx=Math.max(m.mt_sec,m.actual_sec)||1;
+  $('mtT').textContent=ms(m.mt_sec); $('acT').textContent=ms(m.actual_sec);
+  $('mtB').style.width=100*m.mt_sec/mx+'%'; $('acB').style.width=100*m.actual_sec/mx+'%';
+  const df=m.actual_sec-m.mt_sec; $('diff').textContent=(df>0?'+':'-')+ms(Math.abs(df)); $('diff').style.color=df>0?'#ff6a5c':'#3ddc5a';
+
+  $('nextList').innerHTML=d.next_programs.slice(0,4).map((n,i)=>`<div class="row" style="top:${i*61}px">
+    <div class="pid"><svg><use href="#${ICON[n.icon]||'i-doc'}"/></svg>${n.program_id}</div>
+    <div class="dur"><svg><use href="#${n.urgent?'i-hg':'i-clk'}"/></svg>Duration: ${hms(n.duration_sec).slice(3)}</div></div>`).join('');
+
+  $('errTop').innerHTML=d.error_log.slice(-3).map(e=>`<div class="err1"><svg><use href="#i-warn"/></svg>[${e.time}] ${e.code}: ${e.message}</div>`).join('');
+
+  const w=Math.min(100,Math.max(0,d.timeline.progress_pct));
+  const fx=100+(633-100)*w/50;                       /* 50% = penanda di 14:00 */
+  $('tlFill').style.width=Math.min(1064,fx-100)+'px'; $('tlMark').style.left=(fx-1)+'px';
+  const L=d.timeline.labels;
+  $('tlTicks').innerHTML=L.map((t,i)=>`<div class="tlab" style="left:${TX[i]}px">${t}</div>`+(i>0&&i<L.length-1&&i!==4?`<div class="tick" style="left:${TX[i]}px"></div>`:'')).join('');
+
+  $('errBody').innerHTML=d.error_measures.map(e=>{
+    const s=e.status==='resolved'?'<span class="ok">✓ Resolved</span>':e.status==='ready'?`<button class="btn" onclick="resolveError(${e.id})">resolve</button>`:'<span class="pg">ⓘ In Progress</span>';
+    return `<tr><td>${e.code}</td><td>${e.time}</td><td>${e.measure}</td><td style="text-align:center">${s}</td></tr>`}).join('');
+  $('count').textContent=Number(d.count_product).toLocaleString('en-US');
+}
+async function refresh(){ try{ render(await loadData()); }catch(e){ console.error('Gagal memuat data dashboard:',e); } }
+refresh(); setInterval(refresh,CONFIG.POLL_MS);
+
+/* skala otomatis, selalu pas lebar layar */
+function fit(){const s=innerWidth/1604;$('stage').style.transform=`scale(${s})`;$('wrap').style.height=868*s+'px'}
+addEventListener('resize',fit); fit();
+</script>
+</body>
+</html>
